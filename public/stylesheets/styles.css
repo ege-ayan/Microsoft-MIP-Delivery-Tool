@@ -1,0 +1,197 @@
+body {
+  background-color: #1c76c6;
+  color: #ffffff;
+  font-size: 20px;
+  padding-top: 70px;
+}
+.navbar {
+  font-size: 1.2em;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.list-group-item {
+  font-size: 1.2em;
+  background-color: #495e75;
+}
+
+.badge {
+  font-size: 1em;
+}
+
+.collapse p {
+  margin: 10px 0;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+  margin-top: 10px;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin: 15px;
+  transition: all 0.3s ease;
+  background-color: #313134;
+}
+
+.card:hover {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+  background-color: #ffffff;
+  color: white;
+  font-weight: bold;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-fixed-size {
+  width: 21rem; 
+  height: 9rem; 
+  overflow: auto; 
+  transition: 0.3s;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #313134;
+}
+::-webkit-scrollbar-thumb {
+  background: #f1f1f1;;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.card-fixed-size:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 20px;
+}
+
+.login-body {
+  background-color: (199 27% 61%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.login-form-container {
+  background-color: #000000;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  min-width: 300px;
+  text-align: center;
+}
+
+.login-title {
+  color: #ffffff;
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: red;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-input {
+  width: 95%;
+  padding: 15px;
+  border: 2px solid #445963;
+  border-radius: 5px;
+  font-size: 1.2em;
+}
+
+.form-submit, .form-register {
+  width: 100%;
+  background-color: #313134;
+  color: white;
+  padding: 15px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: transform 0.2s;
+}
+
+.form-submit:hover, .form-register:hover {
+  transform: scale(1.1);
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+  border-top: 2px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, .05);
+}
+
+.table-dark {
+  color: #fff;
+  background-color: #343a40;
+}
+
+.table-dark th, .table-dark td, .table-dark thead th {
+  border-color: #454d55;
+}
+
+.table-body {
+  max-height: 300px;
+  overflow-y: auto;
+  display: block;
+}

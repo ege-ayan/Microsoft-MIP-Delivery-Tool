@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Engineer Registration</title>
+    <link rel="stylesheet" href="/stylesheets/styles.css" />
+  </head>
+  <body class="login-body">
+    <div class="login-form-container">
+      <h2 class="login-title">Engineer Registration</h2>
+      <% if (typeof errorMessage !== 'undefined') { %>
+          <div class="alert alert-danger">
+            <div class="error-message">
+              <%= errorMessage %>
+          </div>
+          </div>
+      <% } %>
+      <form action="/register" method="post">
+        <div class="form-field">
+          <label class="form-label" for="firstName">First Name</label>
+          <input class="form-input" type="text" id="firstName" name="firstName" placeholder="Please enter your first name" required pattern="[a-zA-Z\s]+" />
+        </div>
+        <div class="form-field">
+          <label class="form-label" for="lastName">Last Name</label>
+          <input class="form-input" type="text" id="lastName" name="lastName" placeholder="Please enter your last name" required pattern="[a-zA-Z\s]+" />
+        </div>
+        <input class="form-submit" type="submit" value="Register" />
+        <button class="form-register" onclick="location.href='/login'">Back to Login</button>
+      </form>
+    </div>
+  </body>
+</html>

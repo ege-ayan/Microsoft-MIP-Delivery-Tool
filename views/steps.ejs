@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Engineer Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/stylesheets/styles.css" />
+  </head>
+  <body style="height: 100vh; overflow: hidden">
+    <% include partials/topNavbar.ejs %>
+
+    <main
+      style="
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: calc(100vh - 100px);
+        overflow: hidden;
+      "
+    >
+      <div
+        class="card text-center mb-4"
+        style="
+          width: 1070px;
+          height: 150px;
+          background-color: #000000;
+          color: white;
+          position: fixed;
+          top: 100px;
+          z-index: 1000;
+        "
+      >
+        <div class="card-body">
+          <h2 class="card-title">
+            <%= error ? "Database Error" : "Steps for the Learning Path" %>
+          </h2>
+        </div>
+
+        <% let completedSteps = stepsList.filter(step =>
+        step.iscomplete).length; %> <% let totalSteps = stepsList.length; %> <%
+        let progressPercent = totalSteps === 0 ? 0 : (completedSteps / totalSteps) * 100; %>
+        <div class="progress" style="height: 50px; margin: 10px; width: 98%; background-color: #1233456;">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated bg-blue"
+            role="progressbar"
+            style="width: <%= progressPercent %>%; "
+            aria-valuenow="<%= progressPercent %>"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            
+          >
+            <%= Math.round(progressPercent) %>% Completed
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="container"
+        style="margin-top: 200px; height: calc(100vh - 250px); overflow-y: auto"
+      >
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <% stepsList.forEach((step, index) => { %>
+            <% const stepNumber = index + 1; %>
+            <% if (index % 3 === 0 && index !== 0) { %>
+              </div>
+              <div class="row">
+            <% } %>
+            <div class="col-sm-4">
+              <div class="card card-fixed-size" style="margin-bottom: 20px; height: 13rem;">
+                <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #000000; color: white">
+                  <h4 class="card-title m-0"><%= stepNumber %></h4>
+                  <a href="/steps/complete/<%= step.lp_id %>/<%= step.lp_step_id %>">
+                    <% if (step.iscomplete) { %>
+                      <img src="/images/complete_icon.png" alt="Completed Icon" width="40" height="40" />
+                    <% } else { %>
+                      <img src="/images/not_complete_icon.png" alt="Uncompleted Icon" width="40" height="40" />
+                    <% } %>
+                  </a>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-center" style="overflow-y: auto; height: 150px;">
+                  <h5 class="card-title m-0"><%= step.lp_step_name %></h5>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+          
+        </div>
+      </div>
+    </main>
+    <% include partials/footer.ejs %>
+  </body>
+</html>
+
+<style>
+    .bg-blue {
+        background-color: #0abc2f
+    }
+</style>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Engineer Dashboard - Modify MIP</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/stylesheets/styles.css" />
+
+    <style>
+      .container-card {
+        background-color: #0a0a0a;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      }
+      .path-step-container {
+        background-color: #63aa20;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px 0;
+      }
+      .input-field {
+        border-radius: 5px;
+        width: 100%;  
+      }
+      .btn-outline-primary {
+        color: #007bff;
+        border-color: #007bff;
+      }
+      .btn-outline-danger {
+        color: #dc3545;
+        border-color: #dc3545;
+      }
+      .scrollable-div {
+        height: 27vh;
+        overflow-y: auto;
+        padding: 10px;
+        background-color: #0a0a0a;
+      }
+      .path-container {
+        background-color: #2b424b;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+      }
+      .btn-confirm, .btn-add, .btn-delete {
+        width: 200px;
+        margin: 0 auto;
+        display: block;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .btn-confirm:hover, .btn-add:hover, .btn-delete:hover {
+        background-color: #0056b3;
+        color: #fff;
+      }
+    </style>
+
+    <script>
+      function validateStepInput(pathElement) {
+        let stepsContainer = pathElement.getElementsByClassName('stepsContainer')[0];
+        let stepsElements = stepsContainer.getElementsByClassName('input-field');
+      
+        for (let stepElement of stepsElements) {
+          if (stepElement.value == '') {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      function validatePathInput() {
+        let pathsContainer = document.getElementById('pathsContainer');
+        let pathsElements = pathsContainer.getElementsByClassName('path-container');
+      
+        for (let pathElement of pathsElements) {
+          let pathInput = pathElement.getElementsByTagName('input')[0];
+      
+          if (pathInput.value == '') {
+            return false;
+          }
+      
+          if (!validateStepInput(pathElement)) {
+            return false;
+          }
+        }
+      
+        return true;
+      }
+
+      function addStep(parentElement) {
+        if (validateStepInput(parentElement)) {
+          let stepsContainer = parentElement.getElementsByClassName('stepsContainer')[0];
+          let newStepElement = document.createElement('div');
+          newStepElement.className = 'input-group mt-2';
+
+          let newInput = document.createElement('input');
+          newInput.className = 'form-control input-field';
+          newInput.placeholder = 'Enter new step...';
+
+          let removeButton = document.createElement('button');
+          removeButton.className = 'btn btn-outline-danger ml-2';
+          removeButton.innerHTML = 'Remove';
+          removeButton.onclick = function() {
+            stepsContainer.removeChild(newStepElement);
+          };
+
+          newStepElement.appendChild(newInput);
+          newStepElement.appendChild(removeButton);
+          stepsContainer.appendChild(newStepElement);
+        } else {
+          alert('Please fill in the existing step name before adding a new one.');
+        }
+      }
+
+      function addPath() {
+        if (validatePathInput()) {
+          let pathsContainer = document.getElementById('pathsContainer');
+          let newPathElement = document.createElement('div');
+          newPathElement.className = 'mt-2 path-container';
+
+          let pathInputContainer = document.createElement('div');
+          pathInputContainer.className = 'input-group';
+
+          let newInput = document.createElement('input');
+          newInput.className = 'form-control input-field';
+          newInput.placeholder = 'Enter new path...';
+
+          let addStepButton = document.createElement('button');
+          addStepButton.className = 'btn btn-outline-primary ml-2';
+          addStepButton.innerHTML = 'Add Step';
+          addStepButton.onclick = function() {
+            addStep(newPathElement);
+          };
+
+          let removeButton = document.createElement('button');
+          removeButton.className = 'btn btn-outline-danger ml-2';
+          removeButton.innerHTML = 'Remove';
+          removeButton.onclick = function() {
+            pathsContainer.removeChild(newPathElement);
+          };
+
+          pathInputContainer.appendChild(newInput);
+          pathInputContainer.appendChild(addStepButton);
+          pathInputContainer.appendChild(removeButton);
+
+          let stepsContainer = document.createElement('div');
+          stepsContainer.className = 'stepsContainer pl-5 mt-2';
+          stepsContainer.style = 'height: 100px; overflow-y: auto;';
+
+          newPathElement.appendChild(pathInputContainer);
+          newPathElement.appendChild(stepsContainer);
+
+          pathsContainer.appendChild(newPathElement);
+        } else {
+          alert('Please fill in the existing path name before adding a new one.');
+        }
+      }
+
+      function submitForm(event) {
+        event.preventDefault();
+        
+        if (!validatePathInput()) {
+          alert('Please fill in all existing path and step names before confirming the MIP.');
+          return;
+        }
+        
+        // User confirmation before final submission
+        let userConfirmation = confirm("Do you want to save the modified MIP?");
+        
+        if (!userConfirmation) {
+          return;
+        }
+      
+        let mipId = document.getElementById('mipId').value;
+        let mipName = document.getElementById('mipName').value;
+        let pathsContainer = document.getElementById('pathsContainer');
+        let paths = [];
+        
+        for (let pathElement of pathsContainer.getElementsByClassName('path-container')) {
+          let pathId = pathElement.dataset.pathId;
+          let pathName = pathElement.getElementsByTagName('input')[0].value;
+          let stepsContainer = pathElement.getElementsByClassName('stepsContainer')[0];
+          let steps = [];
+        
+          for (let stepElement of stepsContainer.getElementsByClassName('input-field')) {
+            let stepValue = stepElement.value;
+            steps.push(stepValue);
+          }
+        
+          paths.push({ pathId: pathId, pathName: pathName, steps: steps });
+        }
+        
+        let data = {
+          mipId: mipId,
+          mipName: mipName,
+          paths: paths
+        };
+        
+        fetch('/modify/modifymip', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(function(response) {
+            if (response.redirected) {
+              window.location.href = response.url;
+              return;
+            } else {
+              return response.json();
+            }
+          })
+          .then(function(data) {
+            if (data) {
+              alert(data.message);
+              window.location.href = '/modifydashboard';
+            }
+          })
+          .catch(function(error) {
+            console.error('Error:', error);
+          });
+      }
+      
+      function deleteMIP() {
+        let mipId = document.getElementById('mipId').value;
+        
+        // User confirmation before deleting the MIP
+        let userConfirmation = confirm("Are you sure you want to delete the MIP?");
+        
+        if (userConfirmation) {
+          fetch('/modify/deletemip/' + mipId, {
+            method: 'DELETE'
+          })
+            .then(function(response) {
+              if (response.redirected) {
+                window.location.href = response.url;
+              } else {
+                return response.json();
+              }
+            })
+            .then(function(data) {
+              if (data) {
+                alert(data.message);
+                window.location.href = '/modifydashboard';
+              }
+            })
+            .catch(function(error) {
+              console.error('Error:', error);
+            });
+        }
+      }
+    </script>
+
+  </head>
+
+  <body>
+    <% include partials/topNavbar.ejs %>
+
+    <main class="container py-4">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="container-card">
+            <h2 class="text-center mb-4">Modify MIP</h2>
+            <div>
+              <input id="mipId" type="hidden" value="<%= mipId %>" />
+              <input id="mipName" class="form-control mb-3 input-field" type="text" value="<%= mipName %>" />
+              <button class="btn btn-primary btn-block" onclick="submitForm(event)">Save Modifications</button>
+              <button class="btn btn-danger btn-block mt-3" onclick="deleteMIP()">Delete MIP</button>
+            </div>
+          </div>
+
+          <div class="container-card mt-4">
+            <h3 class="text-center mb-4">Modify Learning Paths</h3>
+            <div id="pathsContainer" class="scrollable-div">
+              <% paths.forEach((path) => { %>
+                <div class="mt-2 path-container" data-path-id="<%= path.learningpath_id %>">
+                  <div class="input-group">
+                    <input class="form-control input-field" type="text" value="<%= path.name %>" />
+                    <button class="btn btn-outline-primary ml-2" onclick="addStep(this.parentNode.parentNode)">Add Step</button>
+                    <button class="btn btn-outline-danger ml-2" onclick="this.parentNode.parentNode.remove()">Remove</button>
+                  </div>
+                  <div class="stepsContainer pl-5 mt-2" style="height: 100px; overflow-y: auto;">
+                    <% path.steps.forEach((step) => { %>
+                      <div class="input-group mt-2">
+                        <input class="form-control input-field" type="text" value="<%= step.lp_step_name %>" />
+                        <button class="btn btn-outline-danger ml-2" onclick="this.parentNode.remove()">Remove</button>
+                      </div>
+                    <% }) %>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+            <button class="btn btn-primary btn-block mt-3" onclick="addPath()">Add New Path</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <% include partials/footer.ejs %>
+  </body>
+</html>

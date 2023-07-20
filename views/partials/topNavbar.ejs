@@ -1,0 +1,90 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="navbar-brand">
+        <a href="/dashboard">
+            <img src="/images/home.png" alt="Home Icon" width="48" height="48">
+        </a>
+    </div>
+
+    <div class="mx-auto text-center">
+        <div class="d-flex justify-content-end align-items-center">
+            <img src="/images/profile.png" alt="Profile Icon" width="40" height="40" class="mx-2">
+            <span class="navbar-text text-white"><%= name %></span>
+        </div>
+    </div>
+
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white custom-link" href="#" id="accreditationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Accreditations</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accreditationsDropdown">
+                    <a class="dropdown-item" href="/addmip">Add New MIP</a>
+                    <a class="dropdown-item" href="/modifydashboard">Modify MIP</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/accreditations">My Accreditations</a>
+                </div>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="nav-link text-white custom-link" href="/statistics">Statistics</a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard/logout">
+                    <img src="/images/logout.png" alt="Logout Icon" width="48" height="48">
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Add the Bootstrap CSS and JavaScript libraries -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+
+<style>
+.custom-link:hover {
+    color: #007BFF !important
+}
+
+.navbar-brand,
+.mx-auto {
+    flex-grow: 1;
+}
+
+.dropdown-menu {
+    border: none;
+    background-color: #343a40;
+}
+
+.dropdown-item {
+    color: #ffffff;
+}
+
+.dropdown-item:hover {
+    background-color: #007BFF;
+}
+
+.dropdown-divider {
+    border-top-color: #ffffff;
+}
+
+.dropdown-toggle::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+}
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M3 6h14M3 10h14M3 14h14'/%3E%3C/svg%3E");
+}
+
+@media (min-width: 992px) {
+    .navbar-collapse {
+        justify-content: flex-end;
+    }
+}
+</style>

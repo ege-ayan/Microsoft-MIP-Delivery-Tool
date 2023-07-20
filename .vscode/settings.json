@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/549cb4fa-afcb-49f1-b230-6aeff84b4364/resourceGroups/microsoftCsuNodeJsApp2023/providers/Microsoft.Web/sites/microsoftCsuNodeJsApp2023",
+    "appService.deploySubpath": "."
+}
