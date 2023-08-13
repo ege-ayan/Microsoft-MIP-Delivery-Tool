@@ -1,8 +1,3 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
 - master
 
@@ -17,5 +12,32 @@ steps:
 
 - script: |
     npm install
-    npm run build
-  displayName: 'npm install and build'
+  displayName: 'npm install'
+
+- script: |
+    npm test
+  displayName: 'Run tests'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/app'
+  displayName: 'Copy files to staging directory'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)/app'
+    artifactName: 'webapp'
+  displayName: 'Publish build artifacts'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'ege-ayan'
+    appType: 'webAppLinux'
+    WebAppName: 'microsoftCsuNodeJsApp2023'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/app'
+    enableCustomDeployment: true
+    slotName: ''                                      # Optional: Deployment slot name if needed
+  displayName: 'Deploy to Azure Web App'
