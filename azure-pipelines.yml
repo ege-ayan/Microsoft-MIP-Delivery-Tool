@@ -20,8 +20,8 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: '**'
+    SourceFolder: '$(Build.SourcesDirectory)'   # Assuming your source code is in the root directory
+    Contents: '**'                             # Copy all files
     TargetFolder: '$(Build.ArtifactStagingDirectory)/app'
   displayName: 'Copy files to staging directory'
 
@@ -34,7 +34,7 @@ steps:
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'ege-ayan'
+    azureSubscription: 'pipelineNodejs'
     appType: 'webAppLinux'
     WebAppName: 'microsoftCsuNodeJsApp2023'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/app'
